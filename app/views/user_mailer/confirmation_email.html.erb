@@ -1,0 +1,11 @@
+<h1>Welcome to Our Application!</h1>
+<p>
+  Hi <%= @user.email %>,
+</p>
+<p>
+  Please confirm your email by clicking the link below:
+</p>
+<p>
+  <%= link_to 'Confirm my account', user_confirmation_url(confirmation_token: @confirmation_token) %>
+</p>
+<p>Thank you!</p>

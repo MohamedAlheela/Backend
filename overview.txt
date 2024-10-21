@@ -1,0 +1,73 @@
+Status { name, time, note } [waiting for the delivery, delivered to wash, in queue of washing, being washed, washed, Complete]
+
+validation before order on location
+Order: {
+    id, status, latitude, longitude, totalPrice, userId, delivererId
+}
+
+User: { id, firstName, lastName, photo, phoneNumber, location, userType }
+    1. Customer: {}
+    2. Deliverer: {}
+    3. Admin: {}
+
+Product: { id, name, price }
+
+orderProducts: { orderId, productId, quantity }
+
+POST sign_up --> send an email with verification code (sign up successfully), send verification code in reponse
+POST verification --> success --> login
+POST sign_in --> token
+POST sign_out --> delete token
+POST forget_password --> (FRONT will send email) --> same as sign up flow (with token) --> verification
+POST create_new_password --> body {email, password}
+
+
+------------------------
+sign up example:
+POST /users
+Content-Type: application/json
+{
+  "user": {
+    "email": "test@example.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+  }
+}
+-------------------------
+sign in example:
+POST /users/sign_in
+Content-Type: application/json
+{
+  "user": {
+    "email": "test@example.com",
+    "password": "password123"
+  }
+}
+-------------------------
+sign out example:
+DELETE /users/sign_out
+Content-Type: application/json
+-------------------------
+Email Verification example:
+GET /users/confirmation?confirmation_token=token
+-------------------------
+Forget Password example:
+POST /users/password
+Content-Type: application/json
+{
+  "user": {
+    "email": "test@example.com"
+  }
+}
+-------------------------
+Create New Password example:
+PUT /users/password
+Content-Type: application/json
+{
+  "user": {
+    "reset_password_token": "token_from_email",
+    "password": "newpassword123",
+    "password_confirmation": "newpassword123"
+  }
+}
+-------------------------
