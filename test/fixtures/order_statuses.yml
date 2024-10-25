@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order: one
+  time: 2024-10-25 19:07:00
+  note: MyText
+  name: 1
+
+two:
+  order: two
+  time: 2024-10-25 19:07:00
+  note: MyText
+  name: 1

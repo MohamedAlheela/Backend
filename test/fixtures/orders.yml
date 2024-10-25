@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  latitude: 1.5
+  longitude: 1.5
+  address: MyString
+  total_price: 9.99
+  deliverer: one
+  deliverer_type: Deliverer
+  customer: one
+  customer_type: Customer
+  delivery_time: 2024-10-25 18:01:33
+
+two:
+  latitude: 1.5
+  longitude: 1.5
+  address: MyString
+  total_price: 9.99
+  deliverer: two
+  deliverer_type: Deliverer
+  customer: two
+  customer_type: Customer
+  delivery_time: 2024-10-25 18:01:33

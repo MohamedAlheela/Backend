@@ -10,9 +10,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_11_160623) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_25_160700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "order_products", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.boolean "include_iron", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id", "product_id"], name: "index_order_products_on_order_id_and_product_id", unique: true
+    t.index ["order_id"], name: "index_order_products_on_order_id"
+    t.index ["product_id"], name: "index_order_products_on_product_id"
+  end
+
+  create_table "order_statuses", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.datetime "time", null: false
+    t.text "note"
+    t.integer "name", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_statuses_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address"
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.bigint "deliverer_id", null: false
+    t.bigint "customer_id", null: false
+    t.datetime "delivery_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["deliverer_id", "customer_id"], name: "index_orders_on_deliverer_id_and_customer_id"
+    t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.decimal "iron_price", precision: 10, scale: 2, null: false
+    t.integer "discount", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,9 +74,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_160623) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.string "photo"
+    t.integer "type", default: 0, null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["otp"], name: "index_users_on_otp", unique: true
   end
 
+  add_foreign_key "order_products", "orders"
+  add_foreign_key "order_products", "products"
+  add_foreign_key "order_statuses", "orders"
+  add_foreign_key "orders", "users", column: "customer_id"
+  add_foreign_key "orders", "users", column: "deliverer_id"
 end

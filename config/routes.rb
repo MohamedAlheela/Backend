@@ -1,4 +1,9 @@
 Rails.application.routes.draw do  
+  resources :order_statuses
+  resources :orders do
+    resources :order_products
+  end
+  resources :products
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions',

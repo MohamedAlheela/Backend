@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   skip_before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   # POST /users
   def create
@@ -35,5 +36,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         errors: resource.errors.full_messages
       }, status: :unprocessable_entity
     end
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number, :photo, :type, :latitude, :longitude, :address])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :photo, :type, :latitude, :longitude, :address])
   end
 end
