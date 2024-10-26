@@ -6,9 +6,9 @@ one:
   address: MyString
   total_price: 9.99
   deliverer: one
-  deliverer_type: Deliverer
+  deliverer_role: Deliverer
   customer: one
-  customer_type: Customer
+  customer_role: Customer
   delivery_time: 2024-10-25 18:01:33
 
 two:
@@ -17,7 +17,7 @@ two:
   address: MyString
   total_price: 9.99
   deliverer: two
-  deliverer_type: Deliverer
+  deliverer_role: Deliverer
   customer: two
-  customer_type: Customer
+  customer_role: Customer
   delivery_time: 2024-10-25 18:01:33

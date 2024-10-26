@@ -12,7 +12,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create order" do
     assert_difference("Order.count") do
-      post orders_url, params: { order: { address: @order.address, customer_id: @order.customer_id, customer_type: @order.customer_type, deliverer_id: @order.deliverer_id, deliverer_type: @order.deliverer_type, delivery_time: @order.delivery_time, latitude: @order.latitude, longitude: @order.longitude, total_price: @order.total_price } }, as: :json
+      post orders_url, params: { order: { address: @order.address, customer_id: @order.customer_id, customer_role: @order.customer_role, deliverer_id: @order.deliverer_id, deliverer_role: @order.deliverer_role, delivery_time: @order.delivery_time, latitude: @order.latitude, longitude: @order.longitude, total_price: @order.total_price } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +24,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update order" do
-    patch order_url(@order), params: { order: { address: @order.address, customer_id: @order.customer_id, customer_type: @order.customer_type, deliverer_id: @order.deliverer_id, deliverer_type: @order.deliverer_type, delivery_time: @order.delivery_time, latitude: @order.latitude, longitude: @order.longitude, total_price: @order.total_price } }, as: :json
+    patch order_url(@order), params: { order: { address: @order.address, customer_id: @order.customer_id, customer_role: @order.customer_role, deliverer_id: @order.deliverer_id, deliverer_role: @order.deliverer_role, delivery_time: @order.delivery_time, latitude: @order.latitude, longitude: @order.longitude, total_price: @order.total_price } }, as: :json
     assert_response :success
   end
 
