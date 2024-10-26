@@ -1,31 +1,60 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
   hello: "Hello world"
+  auth_is_missing: "Authorization header missing"
+  products: 
+    product_fetched_successfully : "Product fetched successfully"
+    product_created_successfully : "Product created successfully"
+    product_updated_successfully : "Product updated successfully"
+    product_deleted_successfully : "Product deleted successfully"
+    failed_to_create_product : "Failed to create product"
+    failed_to_update_product : "Failed to update product"
+    failed_to_delete_product : "Failed to delete product"
+    products_fetched_successfully : "Products fetched successfully"
+    failed_to_create_product_status : "Failed to create product status"
+    failed_to_update_product_status : "Failed to update product status"
+    failed_to_delete_product_status : "Failed to delete product status"
+    product_statuses_fetched_successfully : "Product statuses fetched successfully"
+    product_status_fetched_successfully : "Product status fetched successfully"
+    product_status_craeted_successfully : "Product status created successfully"
+    product_status_updated_successfully : "Product status updated successfully"
+    product_status_deleted_successfully : "Product status deleted successfully"
+  orders:
+      order_statuses_fetched_successfully : "Order statuses fetched successfully"
+      order_status_fetched_successfully : "Order status fetched successfully"
+      order_status_craeted_successfully : "Order status created successfully"
+      order_status_updated_successfully : "Order status updated successfully"
+      order_status_deleted_successfully : "Order status deleted successfully"
+      order_fetched_successfully : "Order fetched successfully"
+      order_created_successfully : "Order created successfully"
+      order_updated_successfully : "Order updated successfully"
+      order_deleted_successfully : "Order deleted successfully"
+      failed_to_create_order_status : "Failed to create order status"
+      failed_to_update_order_status : "Failed to update order status"
+      failed_to_delete_order_status : "Failed to delete order status"
+      orders_fetched_successfully : "Orders fetched successfully"
+      failed_to_create_order : "Failed to create order"
+      failed_to_update_order : "Failed to update order"
+      failed_to_delete_order : "Failed to delete order"
+  users:
+    sessions:
+      success: "Logged in successfully"
+      error: "Invalid email or password"
+      invalid_token: "Invalid token"
+      user_not_found: "User not found"
+      sign_up_success_please_confirm: "Sign up successfully, please confirm your email"
+      signed_in_successfully: "Signed in successfully"
+      sign_up_failed: "Sign up failed"
+    passwords:
+      otp_sent_successfully: "OTP sent successfully"
+      email_not_found: "Email not found"
+      otp_verified_successfully: "OTP verified successfully"
+      invalid_otp: "Invalid OTP"
+      password_reset_successfully: "Password reset successfully"
+      password_reset_failed: "Password reset failed"
+      email_not_found_or_invalid_otp: "Email not found or invalid OTP"
+    confirmations:
+      email_verified_successfully: "Email verified successfully"
+      email_verification_failed: "Email verification failed"
+      confirmation_instructions_sent_successfully: "Confirmation instructions sent successfully"
+      failed_to_resend_confirmation_instructions: "Failed to resend confirmation instructions"
+    

@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
 
   enum type: { customer: 0, deliverer: 1, admin: 2 }
+  self.inheritance_column = 'not_in_use'
 
   # Validations
   validates :first_name, :last_name, presence: true

@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
 	include ActionController::MimeResponds
+	include ResponseHelper
 	include JsonWebToken
+
 	before_action :authenticate_user!
 
 	respond_to :json
@@ -18,8 +20,12 @@ class ApplicationController < ActionController::API
 		serializer_class = "#{model_name}Serializer".safe_constantize if model_name.present?
 		
 		# Serialize the data
-		data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-	
+		# data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
+		# serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
+		serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
+		wrapped_data = {
+			model_name.downcase => serialized_data[:data][:attributes].merge(id: serialized_data[:data][:id])
+		  }
 		# Check if the data includes pagination info, and merge with extra if so
 		if data.respond_to?(:total_pages)
 			extra.merge!(
@@ -33,7 +39,8 @@ class ApplicationController < ActionController::API
 	
 		render json: {
 			message: message,
-			data: data,
+			data: wrapped_data,
+			# **serialized_data,
 			extra: extra
 		}, status: status
 	end

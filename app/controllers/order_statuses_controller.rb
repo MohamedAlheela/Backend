@@ -4,36 +4,36 @@ class OrderStatusesController < ApplicationController
   # GET /order_statuses
   def index
     order_statuses = paginate(OrderStatus.all)
-    render_response(model_name: 'OrderStatus', data: order_statuses, message: 'Order statuses fetched successfully')
+    render_response(model_name: 'OrderStatus', data: order_statuses, message: I18n.t('orders.order_statuses_fetched_successfully'))
   end
 
   # GET /order_statuses/:id
   def show
-    render_response(model_name: 'OrderStatus', data: @order_status, message: 'Order status fetched successfully')
+    render_response(model_name: 'OrderStatus', data: @order_status, message: I18n.t('orders.order_status_fetched_successfully'))
   end
 
   # POST /order_statuses
   def create
     order_status = OrderStatus.create!(order_status_params)
-    render_response(model_name: 'OrderStatus', data: order_status, message: 'Order status created successfully', status: :created)
+    render_response(model_name: 'OrderStatus', data: order_status, message: I18n.t('orders.order_status_craeted_successfully'), status: :created)
   rescue ActiveRecord::RecordInvalid => e
-    handle_error(e, 'Failed to create order status')
+    handle_error(e, I18n.t('orders.failed_to_create_order_status'))
   end
 
   # PATCH/PUT /order_statuses/:id
   def update
     @order_status.update!(order_status_params)
-    render_response(model_name: 'OrderStatus', data: @order_status, message: 'Order status updated successfully')
+    render_response(model_name: 'OrderStatus', data: @order_status, message: I18n.t('orders.order_status_updated_successfully'))
   rescue ActiveRecord::RecordInvalid => e
-    handle_error(e, 'Failed to update order status')
+    handle_error(e, I18n.t('orders.failed_to_update_order_status'))
   end
 
   # DELETE /order_statuses/:id
   def destroy
     @order_status.destroy!
-    render_response(message: 'Order status deleted successfully', status: :no_content)
+    render_response(message:  I18n.t('orders.order_status_deleted_successfully'), status: :no_content)
   rescue ActiveRecord::RecordNotDestroyed => e
-    handle_error(e, 'Failed to delete order status')
+    handle_error(e, I18n.t('orders.failed_to_delete_order_status'))
   end
 
   private

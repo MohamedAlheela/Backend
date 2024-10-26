@@ -4,12 +4,12 @@ class OrdersController < ApplicationController
   # GET /orders
   def index
     orders = paginate(Order.all.includes(:order_products))
-    render_response(model_name: 'Order', data: orders, message: 'Orders fetched successfully')
+    render_response(model_name: 'Order', data: orders, message: I18n.t('orders.orders_fetched_successfully'))
   end
 
   # GET /orders/:id
   def show
-    render_response(model_name: 'Order', data: @order, message: 'Order fetched successfully')
+    render_response(model_name: 'Order', data: @order, message: I18n.t('orders.order_fetched_successfully'))
   end
 
   # POST /orders
@@ -17,9 +17,9 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     if @order.save
       create_order_products
-      render_response(model_name: 'Order', data: @order, message: 'Order created successfully', status: :created)
+      render_response(model_name: 'Order', data: @order, message: I18n.t('orders.order_created_successfully'), status: :created)
     else
-      handle_error(@order.errors, 'Failed to create order')
+      handle_error(@order.errors, I18n.t('orders.failed_to_create_order'))
     end
   end
 
@@ -27,18 +27,18 @@ class OrdersController < ApplicationController
   def update
     if @order.update(order_params)
       create_order_products
-      render_response(model_name: 'Order', data: @order, message: 'Order updated successfully')
+      render_response(model_name: 'Order', data: @order, message: I18n.t('orders.order_updated_successfully'))
     else
-      handle_error(@order.errors, 'Failed to update order')
+      handle_error(@order.errors, I18n.t('orders.failed_to_update_order'))
     end
   end
 
   # DELETE /orders/:id
   def destroy
     @order.destroy!
-    render_response(message: 'Order deleted successfully', status: :no_content)
+    render_response(message: I18n.t('orders.order_deleted_successfully'), status: :no_content)
   rescue ActiveRecord::RecordNotDestroyed => e
-    handle_error(e, 'Failed to delete order')
+    handle_error(e, I18n.t('orders.failed_to_delete_order'))
   end
 
   private

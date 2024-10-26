@@ -4,36 +4,36 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     products = paginate(Product.all)
-    render_response(model_name: 'Product', data: products, message: 'Products fetched successfully')
+    render_response(model_name: 'Product', data: products, message: I18n.t('products.products_fetched_successfully'))
   end
 
   # GET /products/:id
   def show
-    render_response(model_name: 'Product', data: @product, message: 'Product fetched successfully')
+    render_response(model_name: 'Product', data: @product, message: I18n.t('products.product_fetched_successfully'))
   end
 
   # POST /products
   def create
     product = Product.create!(product_params)
-    render_response(model_name: 'Product', data: product, message: 'Product created successfully', status: :created)
+    render_response(model_name: 'Product', data: product, message: I18n.t('products.product_created_successfully'), status: :created)
   rescue ActiveRecord::RecordInvalid => e
-    handle_error(e, 'Failed to create product')
+    handle_error(e, I18n.t('products.failed_to_create_product'))
   end
 
   # PATCH/PUT /products/:id
   def update
     @product.update!(product_params)
-    render_response(model_name: 'Product', data: @product, message: 'Product updated successfully')
+    render_response(model_name: 'Product', data: @product, message: I18n.t('products.product_updated_successfully'))
   rescue ActiveRecord::RecordInvalid => e
-    handle_error(e, 'Failed to update product')
+    handle_error(e, I18n.t('products.failed_to_update_product'))
   end
 
   # DELETE /products/:id
   def destroy
     @product.destroy!
-    render_response(message: 'Product deleted successfully', status: :no_content)
+    render_response(message: I18n.t('products.product_deleted_successfully'), status: :no_content)
   rescue ActiveRecord::RecordNotDestroyed => e
-    handle_error(e, 'Failed to delete product')
+    handle_error(e, I18n.t('products.failed_to_delete_product'))
   end
 
   private

@@ -15,14 +15,16 @@ class Users::PasswordsController < Devise::PasswordsController
       # Send OTP via email (you might have a mailer for this)
       UserMailer.send_otp(resource.email, otp).deliver_now
       
-      render json: {
-        status: { code: 200, message: "OTP sent successfully." },
-        otp: otp
-      }, status: :ok
+      # render json: {
+      #   status: { code: 200, message: "OTP sent successfully." },
+      #   otp: otp
+      # }, status: :ok
+      render_response_helper(message: I18n.t('users.passwords.otp_sent_successfully'), status: :ok, extra: {"otp": otp})
     else
-      render json: {
-        status: { code: 422, message: "Email not found." }
-      }, status: :unprocessable_entity
+      # render json: {
+      #   status: { code: 422, message: "Email not found." }
+      # }, status: :unprocessable_entity
+      render_error(message: I18n.t('users.passwords.email_not_found'), status: :unprocessable_entity)
     end
   end
 
@@ -31,13 +33,15 @@ class Users::PasswordsController < Devise::PasswordsController
     self.resource = resource_class.find_by(email: resource_params[:email])
     
     if resource && valid_otp?(resource, resource_params[:otp])
-      render json: {
-        status: { code: 200, message: "OTP verified successfully." }
-      }, status: :ok
+      # render json: {
+      #   status: { code: 200, message: "OTP verified successfully." }
+      # }, status: :ok
+      render_response_helper(message: I18n.t('users.passwords.otp_verified_successfully'), status: :ok)
     else
-      render json: {
-        status: { code: 422, message: "Invalid OTP." }
-      }, status: :unprocessable_entity
+      # render json: {
+      #   status: { code: 422, message: "Invalid OTP." }
+      # }, status: :unprocessable_entity
+      render_error(message: I18n.t('users.passwords.invalid_otp'), status: :unprocessable_entity)
     end
   end
 
@@ -48,20 +52,23 @@ class Users::PasswordsController < Devise::PasswordsController
     if resource && valid_otp?(resource, resource_params[:otp])
       resource.reset_password(resource_params[:password], resource_params[:password_confirmation])
       if resource.errors.empty?
-        render json: {
-          status: { code: 200, message: "Password reset successfully." },
-          data: resource
-        }, status: :ok
+        # render json: {
+        #   status: { code: 200, message: "Password reset successfully." },
+        #   data: resource
+        # }, status: :ok
+        render_response_helper(message: I18n.t('users.passwords.password_reset_successfully'), status: :ok, data: {"user": resource})
       else
-        render json: {
-          status: { code: 422, message: "Password reset failed." },
-          errors: resource.errors.full_messages
-        }, status: :unprocessable_entity
+        # render json: {
+        #   status: { code: 422, message: "Password reset failed." },
+        #   errors: resource.errors.full_messages
+        # }, status: :unprocessable_entity
+        render_error(message: I18n.t('users.passwords.password_reset_failed'), status: :unprocessable_entity, error: resource.errors.full_messages)
       end
     else
-      render json: {
-        status: { code: 422, message: "Email not found or invalid OTP." }
-      }, status: :unprocessable_entity
+      # render json: {
+      #   status: { code: 422, message: "Email not found or invalid OTP." }
+      # }, status: :unprocessable_entity
+      render_error(message: I18n.t('users.passwords.email_not_found_or_invalid_otp'), status: :unprocessable_entity)
     end
   end
 
