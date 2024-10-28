@@ -19,7 +19,8 @@ class OrdersController < ApplicationController
       create_order_products
       render_response(model_name: 'Order', data: @order, message: I18n.t('orders.order_created_successfully'), status: :created)
     else
-      handle_error(@order.errors, I18n.t('orders.failed_to_create_order'))
+      # handle_error(@order.errors, I18n.t('orders.failed_to_create_order'))
+      render_response_helper(message: @order.errors, status: :unprocessable_entity)
     end
   end
 
@@ -51,12 +52,28 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:latitude, :longitude, :address, :total_price, :deliverer_id, :customer_id, :delivery_time, order_products_attributes: [:product_id, :quantity, :include_iron])
   end
 
+  # def create_order_products
+  #   # Assuming order_products are nested within the order parameters
+  #   return unless params[:order][:order_products_attributes].present?
+    
+  #   params[:order][:order_products_attributes].each do |order_product_params|
+  #     @order.order_products.create!(order_product_params.permit(:product_id, :quantity, :include_iron))
+  #   end
+  # end
+
   def create_order_products
-    # Assuming order_products are nested within the order parameters
     return unless params[:order][:order_products_attributes].present?
     
     params[:order][:order_products_attributes].each do |order_product_params|
-      @order.order_products.create!(order_product_params.permit(:product_id, :quantity, :include_iron))
+      existing_order_product = @order.order_products.find_by(product_id: order_product_params[:product_id])
+      if existing_order_product
+        # If the product already exists, update the quantity instead of creating a new record
+        existing_order_product.update(quantity: existing_order_product.quantity + order_product_params[:quantity].to_i)
+      else
+        # Create a new OrderProduct if it doesn't exist
+        @order.order_products.create!(order_product_params.permit(:product_id, :quantity, :include_iron))
+      end
     end
   end
+  
 end

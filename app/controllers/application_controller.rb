@@ -22,10 +22,18 @@ class ApplicationController < ActionController::API
 		# Serialize the data
 		# data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
 		# serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-		serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-		wrapped_data = {
-			model_name.downcase => serialized_data[:data][:attributes].merge(id: serialized_data[:data][:id])
-		  }
+		# Serialize the data
+	serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
+
+	# Determine if serialized_data[:data] is an array or a hash and handle accordingly
+	wrapped_data = if serialized_data[:data].is_a?(Array)
+		# Assuming you want to handle multiple records, map over the array
+		{ model_name.downcase => serialized_data[:data].map { |item| item[:attributes].merge(id: item[:id]) } }
+	else
+		# Handle single record
+		{ model_name.downcase => serialized_data[:data][:attributes].merge(id: serialized_data[:data][:id]) }
+	end
+
 		# Check if the data includes pagination info, and merge with extra if so
 		if data.respond_to?(:total_pages)
 			extra.merge!(
