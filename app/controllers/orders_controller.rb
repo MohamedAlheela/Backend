@@ -1,9 +1,17 @@
 class OrdersController < ApplicationController
+  before_action :authorize_customer_or_admin
   before_action :set_order, only: %i[show update destroy]
+  before_action :authorize_order_access, only: %i[show update destroy]
+  before_action :check_ability_to_change_order, only: %i[update, destroy]
 
   # GET /orders
   def index
-    orders = paginate(Order.all.includes(:order_products))
+    orders =  if @current_user.admin?
+                paginate(Order.all.includes(:order_products))
+              else
+                paginate(@current_user.orders.includes(:order_products))
+              end
+
     render_response(model_name: 'Order', data: orders, message: I18n.t('orders.orders_fetched_successfully'))
   end
 
@@ -14,7 +22,7 @@ class OrdersController < ApplicationController
 
   # POST /orders
   def create
-    @order = Order.new(order_params)
+    @order = @current_user.admin? ? Order.new(order_params) : @current_user.orders.build(order_params)
     if @order.save
       create_order_products
       render_response(model_name: 'Order', data: @order, message: I18n.t('orders.order_created_successfully'), status: :created)
@@ -46,6 +54,22 @@ class OrdersController < ApplicationController
 
   def set_order
     @order = Order.includes(:order_products).find(params[:id])
+  end
+
+  def authorize_order_access
+    return if @current_user.admin?
+
+    if @order.customer_id != @current_user.id      
+      render_response(message: I18n.t('errors.unauthorized_order_access'), status: :forbidden)
+    end
+  end
+
+  def check_ability_to_change_order
+    return if @current_user.admin?
+
+    if @order.deliverer_id.present?
+      render_response(message: I18n.t('errors.unauthorized_order_access'), status: :forbidden)
+    end
   end
 
   def order_params

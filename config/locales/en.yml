@@ -1,7 +1,16 @@
 en:
   hello: "Hello world"
   auth_is_missing: "Authorization header missing"
-  products: 
+  countries:
+    countries_fetched_successfully: "Countries fetched successfully."
+    country_fetched_successfully: "Country fetched successfully."
+    country_created_successfully: "Country created successfully."
+    country_updated_successfully: "Country updated successfully."
+    country_deleted_successfully: "Country deleted successfully."
+    failed_to_create_country: "Failed to create country."
+    failed_to_update_country: "Failed to update country."
+    failed_to_delete_country: "Failed to delete country."
+  products:
     product_fetched_successfully : "Product fetched successfully"
     product_created_successfully : "Product created successfully"
     product_updated_successfully : "Product updated successfully"
@@ -58,3 +67,9 @@ en:
       confirmation_instructions_sent_successfully: "Confirmation instructions sent successfully"
       failed_to_resend_confirmation_instructions: "Failed to resend confirmation instructions"
     
+  errors:
+    unauthorized_customer_admin: "You are not authorized to perform this action. Only customers or admins are allowed."
+    unauthorized_deliverer_admin: "You are not authorized to perform this action. Only deliverers or admins are allowed."
+    unauthorized_admin: "You are not authorized to perform this action. Only admins are allowed."
+    unauthorized_order_access: "You are not authorized to access this order."
+    unauthorized_order_status_access: "You are not authorized to access this order status."
