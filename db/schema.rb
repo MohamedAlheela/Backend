@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_26_142419) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_28_193406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.string "currency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "order_products", force: :cascade do |t|
     t.bigint "order_id", null: false
@@ -46,6 +54,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_142419) do
     t.datetime "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_orders_on_country_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["deliverer_id", "customer_id"], name: "index_orders_on_deliverer_id_and_customer_id"
     t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
@@ -58,6 +68,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_142419) do
     t.integer "discount", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "photo"
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_products_on_country_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -82,7 +95,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_142419) do
     t.float "latitude"
     t.float "longitude"
     t.string "address"
+    t.bigint "country_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["otp"], name: "index_users_on_otp", unique: true
   end
@@ -90,6 +105,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_26_142419) do
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
   add_foreign_key "order_statuses", "orders"
+  add_foreign_key "orders", "countries"
   add_foreign_key "orders", "users", column: "customer_id"
   add_foreign_key "orders", "users", column: "deliverer_id"
+  add_foreign_key "products", "countries"
+  add_foreign_key "users", "countries"
 end

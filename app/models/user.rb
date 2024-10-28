@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  # Associations
+  belongs_to :country
   has_many :orders, class_name: 'Order', foreign_key: 'customer_id', dependent: :destroy
   has_many :deliveries, class_name: 'Order', foreign_key: 'deliverer_id', dependent: :destroy
 

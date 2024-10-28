@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show update destroy]
+  before_action :authorize_admin, only: %i[create update destroy]
 
   # GET /products
   def index
@@ -43,6 +44,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :price, :iron_price, :discount)
+    params.require(:product).permit(:name, :price, :iron_price, :discount, :photo)
   end
 end

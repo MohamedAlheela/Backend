@@ -56,4 +56,16 @@ class ApplicationController < ActionController::API
 
     collection.page(page).per(per_page)
   end
+
+	def authorize_customer_or_admin
+    unless %w[customer admin].include?(@current_user.role)
+      render_response(message: I18n.t('errors.unauthorized_customer_admin'), status: :forbidden)
+    end
+  end
+
+	def authorize_admin
+    unless @current_user.admin?
+      render_response(message: I18n.t('errors.unauthorized_admin'), status: :forbidden)
+    end
+  end
 end

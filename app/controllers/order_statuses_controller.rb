@@ -1,5 +1,8 @@
 class OrderStatusesController < ApplicationController
+  before_action :authorize_admin, only: %i[create update destroy]
+  before_action :authorize_customer_or_admin, only: %i[index show]
   before_action :set_order_status, only: %i[show update destroy]
+  before_action :authorize_order_status_access, only: %i[show]
 
   # GET /order_statuses
   def index
@@ -42,6 +45,14 @@ class OrderStatusesController < ApplicationController
   def set_order_status
     @order_status = OrderStatus.find(params[:id])
   end
+
+  def authorize_order_status_access
+    return if @current_user.admin?
+
+    if @order_status.order.user_id != @current_user.id
+      render_response(message: I18n.t('orders.unauthorized_order_status_access'), status: :forbidden)
+    end
+  end      
 
   # Define allowed parameters for creating or updating an order status
   def order_status_params
