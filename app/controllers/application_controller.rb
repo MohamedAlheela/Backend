@@ -19,13 +19,18 @@ class ApplicationController < ActionController::API
 		# Dynamically get the serializer class based on the model name
 		serializer_class = "#{model_name}Serializer".safe_constantize if model_name.present?
 		
-		# Serialize the data
-		# data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-		# serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-		serialized_data = serializer_class.new(data).serializable_hash if serializer_class.present? && data.present?
-		wrapped_data = {
-			model_name.downcase => serialized_data[:data][:attributes].merge(id: serialized_data[:data][:id])
-		  }
+		# Serialize the data if the serializer class and data are present
+		if serializer_class.present? && data.present?
+			serialized_data = serializer_class.new(data).serializable_hash
+			# Extract attributes and ID, then wrap them in a hash with the model name as the key
+			wrapped_data = {
+				model_name.downcase => serialized_data[:data][:attributes].merge(id: serialized_data[:data][:id])
+			}
+		else
+			# Set wrapped_data to an empty hash if no data or serializer
+			wrapped_data = {}
+		end
+		
 		# Check if the data includes pagination info, and merge with extra if so
 		if data.respond_to?(:total_pages)
 			extra.merge!(
@@ -40,7 +45,6 @@ class ApplicationController < ActionController::API
 		render json: {
 			message: message,
 			data: wrapped_data,
-			# **serialized_data,
 			extra: extra
 		}, status: status
 	end
