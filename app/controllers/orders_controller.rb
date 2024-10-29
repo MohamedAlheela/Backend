@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :authorize_customer_or_admin
   before_action :set_order, only: %i[show update destroy]
   before_action :authorize_order_access, only: %i[show update destroy]
-  before_action :check_ability_to_change_order, only: %i[update, destroy]
+  before_action :check_ability_to_change_order, only: %i[update destroy]
 
   # GET /orders
   def index
