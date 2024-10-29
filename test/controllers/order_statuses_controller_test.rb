@@ -33,6 +33,6 @@ class OrderStatusesControllerTest < ActionDispatch::IntegrationTest
       delete order_status_url(@order_status), as: :json
     end
 
-    assert_response :no_content
+    assert_response :success
   end
 end

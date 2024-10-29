@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
   # DELETE /products/:id
   def destroy
     @product.destroy!
-    render_response(message: I18n.t('products.product_deleted_successfully'), status: :no_content)
+    render_response(message: I18n.t('products.product_deleted_successfully'))
   rescue ActiveRecord::RecordNotDestroyed => e
     handle_error(e, I18n.t('products.failed_to_delete_product'))
   end
