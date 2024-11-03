@@ -7,14 +7,27 @@ class Order < ApplicationRecord
   has_many :products, through: :order_products
   has_many :order_statuses, dependent: :destroy
 
+  # Validations
   validates :latitude, :longitude, :address, :total_price, :delivery_time, presence: true
   validates :latitude, :longitude, numericality: true
-  validate :total_price_calculation
+
+  # Callbacks
+  before_save :total_price_calculation
+  after_create :create_order_status
 
   private
 
   def total_price_calculation
-    self.total_price = order_products.sum("quantity * products.price")
-    self.total_price += order_products.joins(:product).where(include_iron: true).sum("quantity * products.iron_price")
+    self.total_price = order_products.joins(:product).sum(
+      "quantity * (products.price * (1 - products.discount / 100.0))"
+    )
+    
+    self.total_price += order_products.joins(:product).where(include_iron: true).sum(
+      "quantity * (products.iron_price * (1 - products.discount / 100.0))"
+    )
+  end
+
+  def create_order_status
+    order_statuses.create!(name: :waiting_for_delivery_to_washer, time: Time.zone.now, order_id: id)
   end
 end

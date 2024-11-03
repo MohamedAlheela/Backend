@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:latitude, :longitude, :address, :total_price, :deliverer_id, :customer_id, :delivery_time, order_products_attributes: [:product_id, :quantity, :include_iron])
+    params.require(:order).permit(:latitude, :longitude, :address, :country_id, :total_price, :deliverer_id, :customer_id, :delivery_time, order_products_attributes: [:product_id, :quantity, :include_iron])
   end
 
   def create_order_products
