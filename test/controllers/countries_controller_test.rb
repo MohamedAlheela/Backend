@@ -33,6 +33,6 @@ class CountriesControllerTest < ActionDispatch::IntegrationTest
       delete country_url(@country), as: :json
     end
 
-    assert_response :no_content
+    assert_response :success
   end
 end

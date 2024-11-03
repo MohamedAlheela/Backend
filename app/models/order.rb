@@ -1,8 +1,8 @@
 class Order < ApplicationRecord
   belongs_to :deliverer, class_name: 'User', foreign_key: 'deliverer_id', optional: true
   # Associations
-  belongs_to :country  
-  # belongs_to :deliverer, class_name: 'User', foreign_key: 'deliverer_id'
+  belongs_to :country, optional: true
+  belongs_to :deliverer, class_name: 'User', foreign_key: 'deliverer_id'
   belongs_to :customer, class_name: 'User', foreign_key: 'customer_id'
   has_many :order_products, dependent: :destroy
   has_many :products, through: :order_products

@@ -68,6 +68,8 @@ en:
       failed_to_resend_confirmation_instructions: "Failed to resend confirmation instructions"
     
   errors:
+    default: "An error occurred"
+    unexpected: "An unexpected error occurred. Please try again later."
     unauthorized_customer_admin: "You are not authorized to perform this action. Only customers or admins are allowed."
     unauthorized_deliverer_admin: "You are not authorized to perform this action. Only deliverers or admins are allowed."
     unauthorized_admin: "You are not authorized to perform this action. Only admins are allowed."

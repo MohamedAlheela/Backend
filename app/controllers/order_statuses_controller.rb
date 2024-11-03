@@ -34,7 +34,7 @@ class OrderStatusesController < ApplicationController
   # DELETE /order_statuses/:id
   def destroy
     @order_status.destroy!
-    render_response(message:  I18n.t('orders.order_status_deleted_successfully'), status: :no_content)
+    render_response(message:  I18n.t('orders.order_status_deleted_successfully'))
   rescue ActiveRecord::RecordNotDestroyed => e
     handle_error(e, I18n.t('orders.failed_to_delete_order_status'))
   end

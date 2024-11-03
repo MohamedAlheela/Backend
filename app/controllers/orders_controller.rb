@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :authorize_customer_or_admin
   before_action :set_order, only: %i[show update destroy]
   before_action :authorize_order_access, only: %i[show update destroy]
-  before_action :check_ability_to_change_order, only: %i[update, destroy]
+  before_action :check_ability_to_change_order, only: %i[update destroy]
 
   # GET /orders
   def index
@@ -45,7 +45,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/:id
   def destroy
     @order.destroy!
-    render_response(message: I18n.t('orders.order_deleted_successfully'), status: :no_content)
+    render_response(message: I18n.t('orders.order_deleted_successfully'))
   rescue ActiveRecord::RecordNotDestroyed => e
     handle_error(e, I18n.t('orders.failed_to_delete_order'))
   end

@@ -33,7 +33,7 @@ class CountriesController < ApplicationController
   # DELETE /countries/:id
   def destroy
     @country.destroy!
-    render_response(message: I18n.t('countries.country_deleted_successfully'), status: :no_content)
+    render_response(message: I18n.t('countries.country_deleted_successfully'))
   rescue ActiveRecord::RecordNotDestroyed => e
     handle_error(e, I18n.t('countries.failed_to_delete_country'))
   end
