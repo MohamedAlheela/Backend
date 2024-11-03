@@ -14,4 +14,8 @@ class OrderSerializer
       data[:attributes]
     end
   end
+
+  attribute :deliverer do |order|
+    UserSerializer.new(order.deliverer).serializable_hash[:data][:attributes] if order.deliverer.present?
+  end
 end
