@@ -1,6 +1,6 @@
 class CountriesController < ApplicationController
   before_action :set_country, only: %i[show update destroy]
-  before_action :authorize_admin, only: %i[create update destroy]
+  # before_action :authorize_admin, only: %i[create update destroy]
 
   # GET /countries
   def index
@@ -16,7 +16,8 @@ class CountriesController < ApplicationController
   # POST /countries
   def create
     country = Country.create!(country_params)
-    render_response(model_name: 'Country', data: country, message: I18n.t('countries.country_created_successfully'), status: :created)
+    # render_response(model_name: 'Country', data: country, message: I18n.t('countries.country_created_successfully'), status: :created)
+    render_response_helper(data: {"country": country}, message: I18n.t('countries.country_created_successfully'), status: :created)
   rescue ActiveRecord::RecordInvalid => e
     handle_error(e, I18n.t('countries.failed_to_create_country'))
   end

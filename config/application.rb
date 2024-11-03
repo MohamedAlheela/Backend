@@ -30,7 +30,7 @@ module WashingApp
     config.api_only = true
 
     # config.active_job.queue_adapter = :sidekiq
-
+    
     # Add this to enable session store in API mode
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_yourapp_session'
