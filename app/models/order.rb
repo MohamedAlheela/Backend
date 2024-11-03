@@ -12,14 +12,14 @@ class Order < ApplicationRecord
   validates :latitude, :longitude, :address, :total_price, :delivery_time, presence: true
   validates :latitude, :longitude, numericality: true
   # Callbacks
-  before_save :total_price_calculation
+  after_save :calculate_total_price
   after_create :create_order_status
   
   accepts_nested_attributes_for :order_products
 
   private
 
-  def total_price_calculation
+  def calculate_total_price
     self.total_price = order_products.joins(:product).sum(
       "quantity * (products.price * (1 - products.discount / 100.0))"
     )
