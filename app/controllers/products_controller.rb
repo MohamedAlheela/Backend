@@ -2,10 +2,11 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[show update destroy]
   before_action :authorize_admin, only: %i[create update destroy]
 
-  # GET /products
+  # GET /productsp
   def index
     products = paginate(Product.all)
     render_response(model_name: 'Product', data: products, message: I18n.t('products.products_fetched_successfully'))
+    # render_response_helper(message: I18n.t('products.products_fetched_successfully'), data: {"products": products})
   end
 
   # GET /products/:id
@@ -32,7 +33,8 @@ class ProductsController < ApplicationController
   # DELETE /products/:id
   def destroy
     @product.destroy!
-    render_response(message: I18n.t('products.product_deleted_successfully'))
+    # render_response(model_name: 'Product', message: I18n.t('products.product_deleted_successfully'), status: :no_content)
+    render_response_helper(message: I18n.t('products.product_deleted_successfully'), status: :ok)
   rescue ActiveRecord::RecordNotDestroyed => e
     handle_error(e, I18n.t('products.failed_to_delete_product'))
   end

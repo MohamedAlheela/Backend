@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  belongs_to :deliverer, class_name: 'User', foreign_key: 'deliverer_id', optional: true
   # Associations
   belongs_to :country, optional: true
   belongs_to :deliverer, class_name: 'User', foreign_key: 'deliverer_id'
@@ -10,10 +11,11 @@ class Order < ApplicationRecord
   # Validations
   validates :latitude, :longitude, :address, :total_price, :delivery_time, presence: true
   validates :latitude, :longitude, numericality: true
-
   # Callbacks
   before_save :total_price_calculation
   after_create :create_order_status
+  
+  accepts_nested_attributes_for :order_products
 
   private
 
